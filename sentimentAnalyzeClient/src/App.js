@@ -45,19 +45,28 @@ class App extends React.Component {
     }
     ret = axios.get(url);
     ret.then((response)=>{
-
-      //Include code here to check the sentiment and fomrat the data accordingly
-
-      this.setState({sentimentOutput:response.data});
-      let output = response.data;
-      if(response.data === "positive") {
-        output = <div style={{color:"green",fontSize:20}}>{response.data}</div>
-      } else if (response.data === "negative"){
-        output = <div style={{color:"red",fontSize:20}}>{response.data}</div>
-      } else {
-        output = <div style={{color:"orange",fontSize:20}}>{response.data}</div>
-      }
-      this.setState({sentimentOutput:output});
+        /** 
+        * Discovered very late in proceedings that there are restrictions on what
+        * can be added into the React application state.
+        * Trying to add adictionary leads to React error 31:
+        * "Objects are not valid as a React child (...). 
+        *  If you meant to render a collection of children, use an array instead."
+        * My solution is to explicitly unpack the map members into separate state members.
+        */
+        this.setState({
+            sentimentLabel:response.data.label, 
+            sentimentScore:response.data.score
+        });
+        let output = response.data;
+        console.log(output);
+        if(response.data.label === "positive") {
+            output = <div style={{color:"green",fontSize:20}}>{response.data.label}</div>
+        } else if (response.data.label === "negative"){
+            output = <div style={{color:"red",fontSize:20}}>{response.data.label}</div>
+        } else {
+            output = <div style={{color:"orange",fontSize:20}}>{response.data.label}</div>
+        }
+        this.setState({sentimentOutput:output});
     });
   }
 
