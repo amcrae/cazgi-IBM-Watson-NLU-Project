@@ -1,6 +1,13 @@
 # IBM/Coursera "Developing Cloud Apps with Node.js and React"
 ## Week 5 Final Project
 
-### Repo Note
-GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's instructions still specificy to clone and push via HTTPS. 
-So initially I'm just testing a git push via HTTPS from Theia. If this doesn't work, I would rather not have my SSH private key file in Theia, so I may have to work from my own PC instead of Theia so I can push by GIT protocol and SSH key authentication.
+### Note on using github from cognitiveclass.ai cloud development environment.
+GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's course instructions still specify to clone and push via HTTPS. 
+I tested a git push via HTTPS from Theia, and after being asked for the github account password, it worked. So this works at the moment.
+
+Some extra steps (found via StackOverflow of course) which make this online development easier are:
+>  `git config credential.helper store`
+>  `git config --global credential.helper 'cache --timeout 7200'`
+
+Which means I don't get prompted for the password more than once every 2 hours.
+
