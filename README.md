@@ -1,6 +1,11 @@
 # IBM/Coursera "Developing Cloud Apps with Node.js and React"
 ## Week 5 Final Project
 
+Author: Andrew McRae
+
+### Status
+Work in progress.
+
 ### Note on using github from cognitiveclass.ai cloud development environment.
 GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's course instructions still specify to clone and push via HTTPS. 
 I tested a git push via HTTPS from Theia, and after being asked for the github account password, it worked. So this works at the moment.
