@@ -82,6 +82,24 @@ async function internal_infer_text_emotion(text) {
 }
 
 
+/**
+ * Same output as the internal_infer_text_sentiment function
+ * except this analyzes text downloaded from the given URL.
+*/
+async function internal_infer_url_sentiment(url) {
+
+}
+
+
+/**
+ * Same output as the internal_infer_text_emotion function
+ * except this analyzes text downloaded from the given URL.
+*/
+async function internal_infer_url_emotion(url) {
+}
+
+
+
 app.use(express.static('client'))
 
 const cors_app = require('cors');
@@ -123,3 +141,5 @@ let server = app.listen(8080, () => {
 exports.server = server;
 exports.internal_infer_text_sentiment = internal_infer_text_sentiment;
 exports.internal_infer_text_emotion = internal_infer_text_emotion;
+exports.internal_infer_url_sentiment = internal_infer_url_sentiment
+exports.internal_infer_url_emotion = internal_infer_url_emotion

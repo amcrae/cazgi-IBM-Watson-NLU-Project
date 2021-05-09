@@ -88,17 +88,68 @@ async function testEmotionBad1() {
     }
 }
 
+
+async function testSentimentOkayURLWP() {
+    const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+    try {
+        let sent = await sant.internal_infer_url_sentiment(input)
+        console.log("output:", sent);
+        if (!(sent!=null && ("score" in sent))) {
+            throw new Error("No score member in map.");
+        }
+        if (!("label" in sent)) {
+            throw new Error("No label member in map.");
+        }
+        if (sent.score<0.0)  {
+            throw new Error("Score too negative for neutral article");
+        }
+        testPassed["testSentimentOkayURLWP"] = true;
+    } catch (err) {
+        console.error("FAIL due to error thrown:", err);
+        testPassed["testSentimentOkayURLWP"] = false;
+    }
+}
+
+
+async function testEmotionsOK_WPURL() {
+    const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+    try {
+        let emos = await sant.internal_infer_text_emotion(input)
+        console.log("output:", emos);
+        if (!("joy" in emos)) {
+            throw new Error("No joy in map.");
+        }
+        if (emos.joy<0.05)  {
+            throw new Error("Not joyful enough for positive article.");
+        }
+        console.log("PASS.")
+        testPassed["testEmotionsOK_WPURL"] = true;
+    } catch (err) {
+        console.error("FAIL due to error thrown:", err);
+        testPassed["testEmotionsOK_WPURL"] = false;
+    }
+}
+
+
 Promise.all( 
     [
         testSentimentGood1(),
         testSentimentTooShort(),
         testSentimentBad1(),
-        testEmotionBad1()
+        testEmotionBad1(),
+        testSentimentOkayURLWP(),
+        testEmotionsOK_WPURL()
     ] 
 ).then(
         (x) => { 
-            sant.server.close(); 
-            console.log(testPassed);
+            console.log("Report:", testPassed);
+            var P = 0; var T=0;
+            for (k in testPassed) { 
+                T++;
+                if (testPassed[k]) P++;
+            }
+            console.log("Total Passed", P, "/", T);
+            sant.server.close();
             console.log("ended server.")
         }
 );

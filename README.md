@@ -9,6 +9,9 @@ Work in progress.
 * Part A finished.
 * Part B finished.
 * Part C finished.
+* Text test cases set up.
+* Text input analysis functions working.
+* URL test cases set up.
 
 ### Note on using github from cognitiveclass.ai cloud development environment.
 GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's course instructions still specify to clone and push via HTTPS. 
