@@ -48,7 +48,7 @@ class App extends React.Component {
         /** 
         * Discovered very late in proceedings that there are restrictions on what
         * can be added into the React application state.
-        * Trying to add adictionary leads to React error 31:
+        * Trying to add a dictionary leads to React error 31:
         * "Objects are not valid as a React child (...). 
         *  If you meant to render a collection of children, use an array instead."
         * My solution is to explicitly unpack the map members into separate state members.
@@ -64,7 +64,7 @@ class App extends React.Component {
         } else if (response.data.label === "negative"){
             output = <div style={{color:"red",fontSize:20}}>{response.data.label}</div>
         } else {
-            output = <div style={{color:"orange",fontSize:20}}>{response.data.label}</div>
+            output = <div style={{color:"yellow",fontSize:20}}>{response.data.label}</div>
         }
         this.setState({sentimentOutput:output});
     });
