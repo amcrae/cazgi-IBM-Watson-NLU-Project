@@ -1,10 +1,11 @@
 # IBM/Coursera "Developing Cloud Apps with Node.js and React"
 ## Week 5 Final Project
 
-Author: Andrew McRae
+Author: Andrew McRae.
 
 ### Status
-Work in progress.
+Code finished, doing deployment.
+
 1. Watson service created, but the screenshots are not in the repo. None of documentation tells you what to do with these screenshots until you have done everything and get to step 5 which the the peer review submission. I almost made the mistake of adding the screenshots to the repository, but I looked ahead to step 6 "Peer graded assignment" and it has a form with two file upload slots for the screenshots.
 2. Part A finished.
 3. Part B finished.
@@ -14,7 +15,13 @@ Work in progress.
 7. URL test cases set up.
 8. URL input analysis functions are working.
 9. Server-side is passing 6 out of 6 tests.
+10. API functions connected to HTTP request handlers.
+11. Outputs rendered in React client.
 
+Now attempting the Publish steps.
+
+### Watson API Notes
+Please note that I created all the Watson services in the Sydney region since that's nearest to where I live. The examples during the labs all said to use Dallas. As the services should be identical in all regions I do not know of any reason why this would not work.
 
 ### Note on using github from cognitiveclass.ai cloud development environment.
 GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's course instructions still specify to clone and push via HTTPS. 
