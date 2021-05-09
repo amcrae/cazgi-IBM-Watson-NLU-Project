@@ -137,11 +137,19 @@ app.get("/",(req,res)=>{
   });
 
 app.get("/url/emotion", (req,res) => {
-    return res.send({"happy":"90","sad":"10"});
+    internal_infer_url_emotion(req.query.url)
+    .then( (answer) => res.send(answer) )
+    .catch( (err) => {
+        res.status(500).send(err)
+    } )
 });
 
 app.get("/url/sentiment", (req,res) => {
-    return res.send("url sentiment for "+req.query.url);
+    internal_infer_url_sentiment(req.query.url)
+    .then( (answer) => res.send(answer) )
+    .catch( (err) => {
+        res.status(500).send(err)
+    } )
 });
 
 app.get("/text/emotion", (req,res) => {
