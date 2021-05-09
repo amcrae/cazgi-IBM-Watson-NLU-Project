@@ -1,5 +1,6 @@
 const express = require('express');
 const app = new express();
+const axios = require('axios').default;
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -62,7 +63,7 @@ function getNLUInstance() {
  *  dictionary of possible emotion probability scores for the given text.
 */
 async function internal_infer_text_emotion(text) {
-    console.log(`Getting sentiment of ${text.substring(0,30)}...`);
+    console.log(`Getting sentiment of ${text.substring(0,50)}...`);
     let api = getNLUInstance();
     const analyzeParams = {
         'text': text,
@@ -81,13 +82,36 @@ async function internal_infer_text_emotion(text) {
     };
 }
 
+/**
+ * General text downloader used by the other services.
+ * @param {*} url The plain text document to download.
+ */
+async function internal_wrangle_url_text(url) {
+    console.log("Downloading ", url, "...");
+    let text = null;
+    try {
+        const res = await axios.get(url,{
+            headers:{
+                Accept: 'text/plain'
+            },
+        });
+        text = res.data.trim();
+        console.log("..Downloaded", text.substring(0,200), "(..).");
+        return text;
+    } catch (e) {
+        throw Error("Error during download.", e);
+    }
+}
+
 
 /**
  * Same output as the internal_infer_text_sentiment function
  * except this analyzes text downloaded from the given URL.
 */
 async function internal_infer_url_sentiment(url) {
-
+    let text = await internal_wrangle_url_text(url);
+    let sentiment = await internal_infer_text_sentiment(text);
+    return sentiment;
 }
 
 
@@ -96,6 +120,9 @@ async function internal_infer_url_sentiment(url) {
  * except this analyzes text downloaded from the given URL.
 */
 async function internal_infer_url_emotion(url) {
+    let text = await internal_wrangle_url_text(url);
+    let emos = await internal_infer_text_emotion(text);
+    return emos;
 }
 
 

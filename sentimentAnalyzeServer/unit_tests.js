@@ -89,8 +89,9 @@ async function testEmotionBad1() {
 }
 
 
-async function testSentimentOkayURLWP() {
-    const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+async function testSentimentOkay_URL() {
+    // const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+    const input = "https://tools.ietf.org/rfc/rfc1036.txt"
     try {
         let sent = await sant.internal_infer_url_sentiment(input)
         console.log("output:", sent);
@@ -103,53 +104,59 @@ async function testSentimentOkayURLWP() {
         if (sent.score<0.0)  {
             throw new Error("Score too negative for neutral article");
         }
-        testPassed["testSentimentOkayURLWP"] = true;
+        testPassed["testSentimentOkay_URL"] = true;
     } catch (err) {
         console.error("FAIL due to error thrown:", err);
-        testPassed["testSentimentOkayURLWP"] = false;
+        testPassed["testSentimentOkay_URL"] = false;
     }
 }
 
 
-async function testEmotionsOK_WPURL() {
-    const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+async function testEmotionsOK_URL() {
+    //const input = "https://en.wikipedia.org/w/index.php?title=Firefox_Focus&oldid=834063053"
+    //TODO: Should cope with HTML content by extracting plain text nodes 
+    //      similar to how Beautiful Soup works in Python.
+    //      In the meantime, use a known plaintext document.
+    const input = "https://raw.githubusercontent.com/amcrae/cazgi-IBM-Watson-NLU-Project/master/LICENSE";
     try {
-        let emos = await sant.internal_infer_text_emotion(input)
+        let emos = await sant.internal_infer_url_emotion(input)
         console.log("output:", emos);
-        if (!("joy" in emos)) {
-            throw new Error("No joy in map.");
+        if (!("sadness" in emos)) {
+            throw new Error("No sadness in map.");
         }
-        if (emos.joy<0.05)  {
-            throw new Error("Not joyful enough for positive article.");
+        if (emos.sadness<0.25)  {
+            throw new Error("Not sad enough for legalese.");
         }
         console.log("PASS.")
-        testPassed["testEmotionsOK_WPURL"] = true;
+        testPassed["testEmotionsOK_URL"] = true;
     } catch (err) {
         console.error("FAIL due to error thrown:", err);
-        testPassed["testEmotionsOK_WPURL"] = false;
+        testPassed["testEmotionsOK_URL"] = false;
     }
 }
 
 
-Promise.all( 
-    [
-        testSentimentGood1(),
-        testSentimentTooShort(),
-        testSentimentBad1(),
-        testEmotionBad1(),
-        testSentimentOkayURLWP(),
-        testEmotionsOK_WPURL()
-    ] 
-).then(
-        (x) => { 
-            console.log("Report:", testPassed);
-            var P = 0; var T=0;
-            for (k in testPassed) { 
-                T++;
-                if (testPassed[k]) P++;
-            }
-            console.log("Total Passed", P, "/", T);
-            sant.server.close();
-            console.log("ended server.")
-        }
-);
+const all_tests = [
+    testSentimentGood1,
+    testSentimentTooShort,
+    testSentimentBad1,
+    testEmotionBad1,
+    testSentimentOkay_URL,
+    testEmotionsOK_URL
+];
+
+(async function testRunner() {
+    for (i in all_tests) {
+        let t = all_tests[i];
+        await t();
+    }
+    console.log("Report:", testPassed);
+    var P = 0; var T=0;
+    for (k in testPassed) { 
+        T++;
+        if (testPassed[k]) P++;
+    }
+    console.log("Total Passed", P, "/", T);
+    sant.server.close();
+    console.log("ended server.")
+})().catch( console.error );

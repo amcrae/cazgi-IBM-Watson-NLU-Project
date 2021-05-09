@@ -5,13 +5,16 @@ Author: Andrew McRae
 
 ### Status
 Work in progress.
-* Watson service created, but the screenshots are not in the repo. None of documentation tells you what to do with these screenshots until you have done everything and get to step 5 which the the peer review submission. I almost made the mistake of adding the screenshots to the repository, but I looked ahead to step 6 "Peer graded assignment" and it has a form with two file upload slots for the screenshots.
-* Part A finished.
-* Part B finished.
-* Part C finished.
-* Text test cases set up.
-* Text input analysis functions working.
-* URL test cases set up.
+1. Watson service created, but the screenshots are not in the repo. None of documentation tells you what to do with these screenshots until you have done everything and get to step 5 which the the peer review submission. I almost made the mistake of adding the screenshots to the repository, but I looked ahead to step 6 "Peer graded assignment" and it has a form with two file upload slots for the screenshots.
+2. Part A finished.
+3. Part B finished.
+4. Part C finished.
+5. Text test cases set up.
+6. Text input analysis functions working.
+7. URL test cases set up.
+8. URL input analysis functions are working.
+9. Server-side is passing 6 out of 6 tests.
+
 
 ### Note on using github from cognitiveclass.ai cloud development environment.
 GitHub were trying to disable the use of passwords for git and move everybody to SSH keys only. IBM's course instructions still specify to clone and push via HTTPS. 
